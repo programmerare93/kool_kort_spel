@@ -13,16 +13,10 @@ function createPiles(deckSize) {
 }
 
 function sortPiles(piles) {
-	piles.sort().reverse();
-
-	// Tar bort alla tomma högar
-	let index = 0;
-	for (let pile of piles) {
-		if (pile === 0) {
-			piles.splice(index, 1);
-		}
-		index++;
-	}
+	return piles
+		.sort()
+		.reverse()
+		.filter((pile) => pile !== 0);
 }
 
 function updatePiles(piles) {
@@ -51,27 +45,22 @@ function hasWon(pilesArray) {
 
 function play() {
 	let piles = createPiles(10);
-	sortPiles(piles);
-	for (let i of piles) {
+	for (let i of sortPiles(piles)) {
 		console.log(i);
 	}
 
 	let pileArchive = new Array();
-	pileArchive.push(piles);
-
+	pileArchive.push(sortPiles(piles));
 
 	let isRunning = true;
-	let i = 0;
 	while (isRunning) {
 		console.log("New: ");
 		updatePiles(piles);
-		sortPiles(piles);
-		for (let i of piles) {
+		for (let i of sortPiles(piles)) {
 			console.log(i);
 		}
 
-		pileArchive.push(piles);
-		console.log(pileArchive);
+		pileArchive.push(sortPiles(piles));
 		//isRunning = hasWon(pileArchive);
 		isRunning = false;
 	}
