@@ -2,7 +2,8 @@
 
 // OLO
 
-const newPilesBtn = document.querySelector(".newPiles");
+const newPilesBtn = document.querySelector(".new--piles");
+const pilesContainer = document.querySelector(".piles--container");
 
 function createPiles(deckSize) {
   let piles = [];
@@ -14,6 +15,12 @@ function createPiles(deckSize) {
   }
 
   return piles;
+}
+
+function createPileContainers(piles) {
+  for (let pile of piles) {
+    pilesContainer.innerHTML += `<div class="pile">${pile}</div>`;
+  }
 }
 
 function sortPiles(piles) {
@@ -46,6 +53,7 @@ function arrayHasDuplicateArrays(arr) {
 }
 function play() {
   let piles = createPiles(10);
+  createPileContainers(sortPiles(piles));
   for (let i of sortPiles(piles)) {
     console.log(i);
   }
@@ -54,9 +62,11 @@ function play() {
   pileArchive.push(sortPiles(piles));
 
   newPilesBtn.addEventListener("click", function () {
+    pilesContainer.innerHTML = "";
     console.log("New: ");
     updatePiles(piles);
     pileArchive.push(sortPiles(piles));
+    createPileContainers(sortPiles(piles));
     for (let i of sortPiles(piles)) {
       console.log(i);
     }
