@@ -38,13 +38,12 @@ function updatePiles(piles) {
   piles.push(newPileLength);
 }
 
-function hasWon(pilesArray) {
-  let localPilesArray = pilesArray.map((x) => x); // Kopia
-
-  let pilesLeft = pilesArray.length();
-  while (pilesLeft > 0) {}
+function arrayHasDuplicateArrays(arr) {
+  let sortedArr = arr.map((a) => a.sort().reverse().join(","));
+  console.log(sortedArr);
+  let sortedSet = new Set(sortedArr);
+  return sortedSet.size !== sortedArr.length;
 }
-
 function play() {
   let piles = createPiles(10);
   for (let i of sortPiles(piles)) {
@@ -58,12 +57,12 @@ function play() {
     console.log("New: ");
     updatePiles(piles);
     pileArchive.push(sortPiles(piles));
-    console.log(pileArchive);
     for (let i of sortPiles(piles)) {
       console.log(i);
     }
+    // console.log(pileArchive);
+    if (arrayHasDuplicateArrays(pileArchive)) console.log("WIN!");
   });
-  //isRunning = hasWon(pileArchive);
 }
 
 play();
