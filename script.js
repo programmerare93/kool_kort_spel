@@ -2,6 +2,8 @@
 
 // OLO
 
+const newPilesBtn = document.querySelector(".newPiles");
+
 function createPiles(deckSize) {
   let piles = [];
 
@@ -15,10 +17,10 @@ function createPiles(deckSize) {
 }
 
 function sortPiles(piles) {
-	return piles
-		.sort()
-		.reverse()
-		.filter((pile) => pile !== 0);
+  return piles
+    .sort()
+    .reverse()
+    .filter((pile) => pile !== 0);
 }
 
 function updatePiles(piles) {
@@ -44,26 +46,24 @@ function hasWon(pilesArray) {
 }
 
 function play() {
-	let piles = createPiles(10);
-	for (let i of sortPiles(piles)) {
-		console.log(i);
-	}
+  let piles = createPiles(10);
+  for (let i of sortPiles(piles)) {
+    console.log(i);
+  }
 
-	let pileArchive = new Array();
-	pileArchive.push(sortPiles(piles));
+  let pileArchive = new Array();
+  pileArchive.push(sortPiles(piles));
 
-	let isRunning = true;
-	while (isRunning) {
-		console.log("New: ");
-		updatePiles(piles);
-		for (let i of sortPiles(piles)) {
-			console.log(i);
-		}
-
-		pileArchive.push(sortPiles(piles));
-		//isRunning = hasWon(pileArchive);
-		isRunning = false;
-	}
+  newPilesBtn.addEventListener("click", function () {
+    console.log("New: ");
+    updatePiles(piles);
+    pileArchive.push(sortPiles(piles));
+    console.log(pileArchive);
+    for (let i of sortPiles(piles)) {
+      console.log(i);
+    }
+  });
+  //isRunning = hasWon(pileArchive);
 }
 
 play();
