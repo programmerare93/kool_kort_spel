@@ -1,3 +1,5 @@
+"use strict";
+
 // TODO: Input där användaren anger antal högar och sedan väljer fördelning vid början
 
 // OLO
@@ -19,7 +21,10 @@ function createPiles(deckSize) {
 
 function createPileContainers(piles) {
   for (let pile of piles) {
-    pilesContainer.innerHTML += `<div class="pile">${pile}</div>`;
+    for (let i = 0; i < pile; i++) {
+      pilesContainer.innerHTML += `<img class="pile" src = "https://bicyclecards.org/wp-content/uploads/2019/11/red-56.jpg">${pile}</img>`;
+    }
+    pilesContainer.innerHTML += `<br>`;
   }
 }
 
@@ -52,6 +57,7 @@ function arrayHasDuplicateArrays(arr) {
   return sortedSet.size !== sortedArr.length;
 }
 function play() {
+  let rounds = 1;
   let piles = createPiles(10);
   createPileContainers(sortPiles(piles));
   for (let i of sortPiles(piles)) {
@@ -62,6 +68,7 @@ function play() {
   pileArchive.push(sortPiles(piles));
 
   newPilesBtn.addEventListener("click", function () {
+    rounds++;
     pilesContainer.innerHTML = "";
     console.log("New: ");
     updatePiles(piles);
@@ -71,7 +78,10 @@ function play() {
       console.log(i);
     }
     // console.log(pileArchive);
-    if (arrayHasDuplicateArrays(pileArchive)) console.log("WIN!");
+    if (arrayHasDuplicateArrays(pileArchive)) {
+      console.log("Duplicate found");
+      console.log("Rounds: " + rounds);
+    }
   });
 }
 
