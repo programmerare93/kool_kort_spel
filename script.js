@@ -52,10 +52,10 @@ function updatePiles(piles) {
 
 function arrayHasDuplicateArrays(arr) {
   let sortedArr = arr.map((a) => a.sort().reverse().join(","));
-  console.log(sortedArr);
   let sortedSet = new Set(sortedArr);
   return sortedSet.size !== sortedArr.length;
 }
+
 function play() {
   let rounds = 1;
   let piles = createPiles(10);
@@ -80,7 +80,13 @@ function play() {
     // console.log(pileArchive);
     if (arrayHasDuplicateArrays(pileArchive)) {
       console.log("Duplicate found");
+
       console.log("Rounds: " + rounds);
+      if (pileArchive.at(-1).join(",") === pileArchive.at(-2).join(",")) {
+        console.log("Last two piles are equal");
+      } else {
+        console.log("The deck has looped");
+      }
     }
   });
 }
