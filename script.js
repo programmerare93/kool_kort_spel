@@ -38,7 +38,7 @@ function createPiles() {
 		piles.push(remainingNumOfCards);
 	}
 
-	return piles
+  return piles;
 }
 
 function sortPiles(piles) {
@@ -49,22 +49,25 @@ function sortPiles(piles) {
 }
 
 function updatePiles(piles) {
-	let newPileLength = 0;
+  let newPileLength = 0;
 
-	let index = 0;
-	for (let pile of piles) {
-		if (pile === 0) {
-			continue;
-		}
-		newPileLength++;
-		piles[index] = --pile;
-		++index;
-	}
-	piles.push(newPileLength);
+  let index = 0;
+  for (let pile of piles) {
+    if (pile === 0) {
+      continue;
+    }
+    newPileLength++;
+    piles[index] = --pile;
+    ++index;
+  }
+  piles.push(newPileLength);
 }
 
 function hasWon(pilesArray) {
-	return true;
+  let localPilesArray = pilesArray.map((x) => x); // Kopia
+
+  let pilesLeft = pilesArray.length();
+  while (pilesLeft > 0) {}
 }
 
 function play() {
