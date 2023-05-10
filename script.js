@@ -1,12 +1,41 @@
 // TODO: Input där användaren anger antal högar och sedan väljer fördelning vid början
 
-function createPiles(deckSize) {
+"use strict";
+
+function createPiles() {
+	// NOTE: Input säkerhet?
 	let piles = [];
 
-	while (deckSize > 0) {
-		let pileSize = Math.floor(Math.random() * deckSize) + 1;
-		piles.push(pileSize);
-		deckSize -= pileSize;
+	const deckSize = prompt("Ange hur många kort du vill ha: ");
+	const numOfPiles = prompt("Ange hur många högar av kort du vill ha: ");
+	if (Number(numOfPiles) > Number(deckSize)) {
+		alert("Du angav fler kort högar än antal kort");
+		piles = createPiles(deckSize);
+		return piles;
+	}
+
+	let remainingNumOfPiles = numOfPiles;
+	let remainingNumOfCards = deckSize;
+	while (remainingNumOfPiles > 0) {
+		const currentPile = numOfPiles - remainingNumOfPiles + 1;
+
+		let input = prompt(`Ange antal kort för hög ${currentPile} (${remainingNumOfCards} kort kvar): `);
+
+		input = Number(input);
+		if (remainingNumOfCards - input < 0) {
+			alert("Du angav fler kort än vad du har kvar");
+			continue;
+		}
+		remainingNumOfCards -= input;
+
+		--remainingNumOfPiles;
+
+		piles.push(input);
+	}
+
+	if (remainingNumOfCards > 0) {
+		alert(`Du fördelade inte all korten så resten (${remainingNumOfCards} st) kommer att automatiskt hamna i sin egna hög`);
+		piles.push(remainingNumOfCards);
 	}
 
 	return piles
@@ -35,23 +64,17 @@ function updatePiles(piles) {
 }
 
 function hasWon(pilesArray) {
-	let localPilesArray = pilesArray.map((x) => x); // Kopia
-
-	let pilesLeft = pilesArray.length();
-	while (pilesLeft > 0) {
-
-	}
+	return true;
 }
 
 function play() {
-	let piles = createPiles(10);
-	for (let i of sortPiles(piles)) {
-		console.log(i);
-	}
+	let piles = createPiles();
+	debugger;
 
 	let pileArchive = new Array();
 	pileArchive.push(sortPiles(piles));
 
+	let  i = 0;
 	let isRunning = true;
 	while (isRunning) {
 		console.log("New: ");
@@ -61,8 +84,9 @@ function play() {
 		}
 
 		pileArchive.push(sortPiles(piles));
-		//isRunning = hasWon(pileArchive);
-		isRunning = false;
+		//isRunning = !hasWon(pileArchive);
+		isRunning = (i < 9);
+		i++;
 	}
 }
 
