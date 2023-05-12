@@ -108,10 +108,10 @@ function play() {
       console.log("Rounds: " + rounds);
       if (pileArchive.at(-1).join(",") === pileArchive.at(-2).join(",")) {
         console.log("Last two piles are equal");
-        alert(`Patiensen har gått ur på runda ${rounds} rundor`);
+        alert(`Patiensen har gått ur på runda ${rounds}`);
       } else {
         console.log("The deck has looped");
-        alert(`Högarna har loopat på runda ${rounds} rundor`);
+        alert(`Högarna har loopat på runda ${rounds}`);
       }
 
       newPilesBtn.remove();
