@@ -2,21 +2,48 @@
 
 // TODO: Input där användaren anger antal högar och sedan väljer fördelning vid början
 
-// OLO
+"use strict";
 
 const newPilesBtn = document.querySelector(".new--piles");
 const pilesContainer = document.querySelector(".piles--container");
 
-function createPiles(deckSize) {
-  let piles = [];
+function createPiles() {
+	// NOTE: Input säkerhet?
+	let piles = [];
 
-  while (deckSize > 0) {
-    let pileSize = Math.floor(Math.random() * deckSize) + 1;
-    piles.push(pileSize);
-    deckSize -= pileSize;
-  }
+	const deckSize = prompt("Ange hur många kort du vill ha: ");
+	const numOfPiles = prompt("Ange hur många högar av kort du vill ha: ");
+	if (Number(numOfPiles) > Number(deckSize)) {
+		alert("Du angav fler kort högar än antal kort");
+		piles = createPiles(deckSize);
+		return piles;
+	}
 
-  return piles;
+	let remainingNumOfPiles = numOfPiles;
+	let remainingNumOfCards = deckSize;
+	while (remainingNumOfPiles > 0) {
+		const currentPile = numOfPiles - remainingNumOfPiles + 1;
+
+		let input = prompt(`Ange antal kort för hög ${currentPile} (${remainingNumOfCards} kort kvar): `);
+
+		input = Number(input);
+		if (remainingNumOfCards - input < 0) {
+			alert("Du angav fler kort än vad du har kvar");
+			continue;
+		}
+		remainingNumOfCards -= input;
+
+		--remainingNumOfPiles;
+
+		piles.push(input);
+	}
+
+	if (remainingNumOfCards > 0) {
+		alert(`Du fördelade inte all korten så resten (${remainingNumOfCards} st) kommer att automatiskt hamna i sin egna hög`);
+		piles.push(remainingNumOfCards);
+	}
+
+	return piles;
 }
 
 function createPileContainers(piles) {
@@ -36,18 +63,18 @@ function sortPiles(piles) {
 }
 
 function updatePiles(piles) {
-  let newPileLength = 0;
+	let newPileLength = 0;
 
-  let index = 0;
-  for (let pile of piles) {
-    if (pile === 0) {
-      continue;
-    }
-    newPileLength++;
-    piles[index] = --pile;
-    ++index;
-  }
-  piles.push(newPileLength);
+	let index = 0;
+	for (let pile of piles) {
+		if (pile === 0) {
+			continue;
+		}
+		newPileLength++;
+		piles[index] = --pile;
+		++index;
+	}
+	piles.push(newPileLength);
 }
 
 function arrayHasDuplicateArrays(arr) {
