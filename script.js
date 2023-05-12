@@ -81,7 +81,7 @@ function arrayHasDuplicateArrays(arr) {
 }
 
 function play() {
-  let rounds = 1;
+  let rounds = 0;
   let piles = createPiles();
   createPileContainers(sortPiles(piles));
   for (let i of sortPiles(piles)) {
