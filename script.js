@@ -1,6 +1,11 @@
+"use strict";
+
 // TODO: Input där användaren anger antal högar och sedan väljer fördelning vid början
 
 "use strict";
+
+const newPilesBtn = document.querySelector(".new--piles");
+const pilesContainer = document.querySelector(".piles--container");
 
 function createPiles() {
 	// NOTE: Input säkerhet?
@@ -41,11 +46,20 @@ function createPiles() {
 	return piles;
 }
 
+function createPileContainers(piles) {
+  for (let pile of piles) {
+    for (let i = 0; i < pile; i++) {
+      pilesContainer.innerHTML += `<img class="pile" src = "https://bicyclecards.org/wp-content/uploads/2019/11/red-56.jpg">${pile}</img>`;
+    }
+    pilesContainer.innerHTML += `<br>`;
+  }
+}
+
 function sortPiles(piles) {
-	return piles
-		.sort()
-		.reverse()
-		.filter((pile) => pile !== 0);
+  return piles
+    .sort()
+    .reverse()
+    .filter((pile) => pile !== 0);
 }
 
 function updatePiles(piles) {
@@ -63,27 +77,45 @@ function updatePiles(piles) {
 	piles.push(newPileLength);
 }
 
-function hasWon(pilesArray) {
-	return true;
+function arrayHasDuplicateArrays(arr) {
+  let sortedArr = arr.map((a) => a.sort().reverse().join(","));
+  let sortedSet = new Set(sortedArr);
+  return sortedSet.size !== sortedArr.length;
 }
 
 function play() {
-	let piles = createPiles();
+  let rounds = 1;
+  let piles = createPiles(10);
+  createPileContainers(sortPiles(piles));
+  for (let i of sortPiles(piles)) {
+    console.log(i);
+  }
 
-	let pileArchive = new Array();
-	pileArchive.push(sortPiles(piles));
+  let pileArchive = new Array();
+  pileArchive.push(sortPiles(piles));
 
-	let isRunning = true;
-	while (isRunning) {
-		console.log("New: ");
-		updatePiles(piles);
-		for (let i of sortPiles(piles)) {
-			console.log(i);
-		}
+  newPilesBtn.addEventListener("click", function () {
+    rounds++;
+    pilesContainer.innerHTML = "";
+    console.log("New: ");
+    updatePiles(piles);
+    pileArchive.push(sortPiles(piles));
+    createPileContainers(sortPiles(piles));
+    for (let i of sortPiles(piles)) {
+      console.log(i);
+    }
+    // console.log(pileArchive);
+    if (arrayHasDuplicateArrays(pileArchive)) {
+      console.log("Duplicate found");
 
-		pileArchive.push(sortPiles(piles));
-		isRunning = !hasWon(pileArchive);
-	}
+      console.log("Rounds: " + rounds);
+      if (pileArchive.at(-1).join(",") === pileArchive.at(-2).join(",")) {
+        console.log("Last two piles are equal");
+      } else {
+        console.log("The deck has looped");
+      }
+    }
+  });
 }
 
 play();
