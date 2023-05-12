@@ -1,9 +1,5 @@
 "use strict";
 
-// TODO: Input där användaren anger antal högar och sedan väljer fördelning vid början
-
-"use strict";
-
 const newPilesBtn = document.querySelector(".new--piles");
 const pilesContainer = document.querySelector(".piles--container");
 
@@ -48,8 +44,9 @@ function createPiles() {
 
 function createPileContainers(piles) {
   for (let pile of piles) {
+    pilesContainer.innerHTML += `<p>${pile}</p>`;
     for (let i = 0; i < pile; i++) {
-      pilesContainer.innerHTML += `<img class="pile" src = "https://bicyclecards.org/wp-content/uploads/2019/11/red-56.jpg">${pile}</img>`;
+      pilesContainer.innerHTML += `<img class="pile" src = "https://bicyclecards.org/wp-content/uploads/2019/11/red-56.jpg"></img>`;
     }
     pilesContainer.innerHTML += `<br>`;
   }
@@ -84,8 +81,8 @@ function arrayHasDuplicateArrays(arr) {
 }
 
 function play() {
-  let rounds = 1;
-  let piles = createPiles(10);
+  let rounds = 0;
+  let piles = createPiles();
   createPileContainers(sortPiles(piles));
   for (let i of sortPiles(piles)) {
     console.log(i);
@@ -111,9 +108,13 @@ function play() {
       console.log("Rounds: " + rounds);
       if (pileArchive.at(-1).join(",") === pileArchive.at(-2).join(",")) {
         console.log("Last two piles are equal");
+        alert(`Patiensen har gått ur på runda ${rounds}`);
       } else {
         console.log("The deck has looped");
+        alert(`Högarna har loopat på runda ${rounds}`);
       }
+
+      newPilesBtn.remove();
     }
   });
 }
