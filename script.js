@@ -38,7 +38,7 @@ function createPiles() {
 		piles.push(remainingNumOfCards);
 	}
 
-  return piles;
+	return piles;
 }
 
 function sortPiles(piles) {
@@ -49,35 +49,30 @@ function sortPiles(piles) {
 }
 
 function updatePiles(piles) {
-  let newPileLength = 0;
+	let newPileLength = 0;
 
-  let index = 0;
-  for (let pile of piles) {
-    if (pile === 0) {
-      continue;
-    }
-    newPileLength++;
-    piles[index] = --pile;
-    ++index;
-  }
-  piles.push(newPileLength);
+	let index = 0;
+	for (let pile of piles) {
+		if (pile === 0) {
+			continue;
+		}
+		newPileLength++;
+		piles[index] = --pile;
+		++index;
+	}
+	piles.push(newPileLength);
 }
 
 function hasWon(pilesArray) {
-  let localPilesArray = pilesArray.map((x) => x); // Kopia
-
-  let pilesLeft = pilesArray.length();
-  while (pilesLeft > 0) {}
+	return true;
 }
 
 function play() {
 	let piles = createPiles();
-	debugger;
 
 	let pileArchive = new Array();
 	pileArchive.push(sortPiles(piles));
 
-	let  i = 0;
 	let isRunning = true;
 	while (isRunning) {
 		console.log("New: ");
@@ -87,9 +82,7 @@ function play() {
 		}
 
 		pileArchive.push(sortPiles(piles));
-		//isRunning = !hasWon(pileArchive);
-		isRunning = (i < 9);
-		i++;
+		isRunning = !hasWon(pileArchive);
 	}
 }
 
