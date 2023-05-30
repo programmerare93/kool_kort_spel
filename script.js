@@ -100,33 +100,22 @@ function play() {
   let rounds = 0; // Räknar antalet rundor som har spelats
   let piles = sortPiles(createPiles()); // Skapar de första högarna
   createPileContainers(piles); // Skapar html elementen för att visa högarna grafiskt
-
-  // console.log(sortPiles(piles));
-
   let pileArchive = new Array(); // Sparar alla högkombinationer som har skapats
   pileArchive.push(piles);
 
   newPilesBtn.addEventListener("click", function () {
     rounds++;
     pilesContainer.innerHTML = ""; // Återställer högarna grafiskt
-    console.log("New: ");
     piles = updatePiles(piles);
     pileArchive.push(piles);
-    console.log(piles);
-    // console.log(sortPiles(piles));
     createPileContainers(piles);
-    // console.log(pileArchive);
     if (arrayHasDuplicateArrays(pileArchive)) {
       // Kollar ifall patiensen har gått ut
-      console.log("Duplicate found");
 
-      console.log("Rounds: " + rounds);
       if (pileArchive.at(-1).join(",") === pileArchive.at(-2).join(",")) {
         // Kollar ifall de två sista högkombinationerna är lika
-        console.log("Last two piles are equal");
         alert(`Patiensen har gått ur på runda ${rounds}`);
       } else {
-        console.log("The deck has looped");
         alert(`Högarna har loopat på runda ${rounds}`);
       }
 
