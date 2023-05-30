@@ -79,17 +79,19 @@ function sortPiles(piles) {
 function updatePiles(piles) {
   // Tar bort ett kort från varje hög och lägger ihop dem i en ny hög
   let newPile = 0;
+  let newPiles = [];
 
   let index = 0;
-  for (let pile of piles) {
-    if (pile === 0) {
-      continue;
-    }
+  for (let pile of sortPiles(piles)) {
     newPile++;
-    piles[index] = --pile;
+    newPiles.push(--pile);
     index++;
   }
-  piles.push(newPile);
+  // console.log("newPiles: ", newPiles);
+  newPiles.push(newPile);
+  newPiles = sortPiles(newPiles);
+  console.log("newPiles: ", newPiles);
+  return newPiles;
 }
 
 function arrayHasDuplicateArrays(arr) {
@@ -103,7 +105,7 @@ function play() {
   let piles = createPiles();
   createPileContainers(sortPiles(piles));
 
-  console.log(sortPiles(piles));
+  // console.log(sortPiles(piles));
 
   let pileArchive = new Array();
   pileArchive.push(sortPiles(piles));
@@ -112,11 +114,12 @@ function play() {
     rounds++;
     pilesContainer.innerHTML = "";
     console.log("New: ");
-    updatePiles(piles);
-    pileArchive.push(sortPiles(piles));
-    console.log(sortPiles(piles));
-    createPileContainers(sortPiles(piles));
-    console.log(pileArchive);
+    piles = updatePiles(piles);
+    pileArchive.push(piles);
+    console.log(piles);
+    // console.log(sortPiles(piles));
+    createPileContainers(piles);
+    // console.log(pileArchive);
     if (arrayHasDuplicateArrays(pileArchive)) {
       console.log("Duplicate found");
 
