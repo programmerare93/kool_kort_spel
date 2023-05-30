@@ -77,55 +77,48 @@ function sortPiles(piles) {
 // Tar bort ett kort från varje hög och lägger ihop dem i en ny hög
 function updatePiles(piles) {
   let newPile = 0;
+  let newPiles = []; // Den nya högen som sedan returneras
 
-  let index = 0;
-  for (let pile of piles) {
-    if (pile === 0) {
-      continue;
-    }
-
+  for (let pile of sortPiles(piles)) {
     newPile++;
-    piles[index] = --pile;
-    index++;
+    newPiles.push(--pile);
   }
 
-  piles.push(newPile);
+  newPiles.push(newPile);
+  newPiles = sortPiles(newPiles);
+  return newPiles;
 }
 
 function arrayHasDuplicateArrays(arr) {
-  // Gör om varje fält i fältet till en sträng så att man kan jämföra
-  let sortedArr = arr.map((a) => a.sort().reverse().join(","));
-  let sortedSet = new Set(sortedArr);
-  return sortedSet.size !== sortedArr.length;
+  let stringArr = arr.map((a) => a.join(",")); // Går igenom varje hög i samlingen av högar och gör om dem till en sträng för att kunna jämföra dem
+  let stringSet = new Set(stringArr); // Tar bort alla dubbletter
+  return stringSet.size !== stringArr.length; // Om det finns dubbletter så kommer storleken på seten att vara mindre än storleken på arrayen
 }
 
 function play() {
-  let rounds = 0;
-  let piles = createPiles();
-  piles = sortPiles(piles);
-  createPileContainers(piles);
-
-  let pileArchive = new Array();
+  let rounds = 0; // Räknar antalet rundor som har spelats
+  let piles = sortPiles(createPiles()); // Skapar de första högarna
+  createPileContainers(piles); // Skapar html elementen för att visa högarna grafiskt
+  let pileArchive = new Array(); // Sparar alla högkombinationer som har skapats
   pileArchive.push(piles);
-  
+
   newPilesBtn.addEventListener("click", function () {
     rounds++;
-    pilesContainer.innerHTML = "";
-  
-    updatePiles(piles);
-    piles = sortPiles(piles);
+    pilesContainer.innerHTML = ""; // Återställer högarna grafiskt
+    piles = updatePiles(piles);
     pileArchive.push(piles);
-
     createPileContainers(piles);
-  
     if (arrayHasDuplicateArrays(pileArchive)) {
+      // Kollar ifall patiensen har gått ut
+
       if (pileArchive.at(-1).join(",") === pileArchive.at(-2).join(",")) {
+        // Kollar ifall de två sista högkombinationerna är lika
         alert(`Patiensen har gått ur på runda ${rounds}`);
       } else {
         alert(`Högarna har loopat på runda ${rounds}`);
       }
 
-      newPilesBtn.remove();
+      newPilesBtn.remove(); // Tar bort knappen
     }
   });
 }
