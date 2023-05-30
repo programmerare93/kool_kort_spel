@@ -102,9 +102,8 @@ function play() {
   let rounds = 0;
   let piles = createPiles();
   createPileContainers(sortPiles(piles));
-  for (let i of sortPiles(piles)) {
-    console.log(i);
-  }
+
+  console.log(sortPiles(piles));
 
   let pileArchive = new Array();
   pileArchive.push(sortPiles(piles));
@@ -115,11 +114,9 @@ function play() {
     console.log("New: ");
     updatePiles(piles);
     pileArchive.push(sortPiles(piles));
+    console.log(sortPiles(piles));
     createPileContainers(sortPiles(piles));
-    for (let i of sortPiles(piles)) {
-      console.log(i);
-    }
-    // console.log(pileArchive);
+    console.log(pileArchive);
     if (arrayHasDuplicateArrays(pileArchive)) {
       console.log("Duplicate found");
 
