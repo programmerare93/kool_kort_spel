@@ -1,7 +1,6 @@
 "use strict";
 
 // Våra html element
-
 const newPilesBtn = document.querySelector(".new--piles");
 const pilesContainer = document.querySelector(".piles--container");
 
@@ -9,13 +8,12 @@ const pilesContainer = document.querySelector(".piles--container");
 
 // Skapar de första högarna
 function createPiles() {
-  // NOTE: Input säkerhet?
   let piles = []; // Representerar en kombination av högar
 
   const deckSize = prompt("Ange hur många kort du vill ha: ");
   const numOfPiles = prompt("Ange hur många högar av kort du vill ha: ");
+  // Ser till så att man inte kan ange fler högar än kort
   if (Number(numOfPiles) > Number(deckSize)) {
-    // Ser till så att man inte kan ange fler högar än kort
     alert("Du angav fler kort högar än antal kort");
     piles = createPiles(deckSize);
     return piles;
@@ -45,8 +43,8 @@ function createPiles() {
     piles.push(input); // Varje hög representeras av ett heltal
   }
 
+  // Ifall användaren inte fördelade alla korten så läggs resten i en egen hög
   if (remainingNumOfCards > 0) {
-    // Ifall användaren inte fördelade alla korten så läggs resten i en egen hög
     alert(
       `Du fördelade inte all korten så resten (${remainingNumOfCards} st) kommer att automatiskt hamna i sin egna hög`
     );
@@ -56,8 +54,8 @@ function createPiles() {
   return piles;
 }
 
+// Skapar html elementen för att visa högarna grafiskt
 function createPileContainers(piles) {
-  // Skapar html elementen för att visa högarna grafiskt
   for (let pile of piles) {
     pilesContainer.innerHTML += `<p>${pile}</p>`; // Visar med ett heltal för användaren hur många kort som finns i högen
     for (let i = 0; i < pile; i++) {
@@ -68,16 +66,16 @@ function createPileContainers(piles) {
   }
 }
 
+// Sorterar högarna i fallande ordning
 function sortPiles(piles) {
-  // Sorterar högarna i fallande ordning
   return piles
     .sort()
     .reverse()
     .filter((pile) => pile !== 0);
 }
 
+// Tar bort ett kort från varje hög och lägger ihop dem i en ny hög
 function updatePiles(piles) {
-  // Tar bort ett kort från varje hög och lägger ihop dem i en ny hög
   let newPile = 0;
   let newPiles = []; // Den nya högen som sedan returneras
 
@@ -85,6 +83,7 @@ function updatePiles(piles) {
     newPile++;
     newPiles.push(--pile);
   }
+
   newPiles.push(newPile);
   newPiles = sortPiles(newPiles);
   return newPiles;
